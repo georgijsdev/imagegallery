@@ -1,7 +1,23 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 
 
 function App() {
+  const {images, setImages} = useState([]);
+  const {isLoading, setIsLoading} = useState(true);
+  const {term, setTerm} = useState('');
+
+  const PIXABAY_API_KEY='8320446-f850a751777fc08620d2ea039';
+
+  useEffect(() => {
+    fetch(`https://pixabay.com/api/?key=${PIXABAY_API_KEY}&q=${term}&image_type=photo&pretty=true`)
+      .then(res => res.json())
+      .then(data => {
+        setImages(data.hits);
+        setIsLoading(false); // 22:00
+      })
+      .catch(err => console.log(err))
+  })
+
   return (
     <div>
       <div className="max-w-sm rounded overflow-hidden shadow-lg">
